@@ -2,6 +2,30 @@
 
 A Spring Boot blogging app with account registration and login, and pages to create and view posts. It uses Thymeleaf for the web UI, Spring Security for authentication, Spring Data JPA for persistence, and an in-memory H2 database by default.
 
+## Screenshots
+
+The app has a quiet public home page, simple account forms, and a focused writing screen.
+
+### Home
+
+![Commonplace home page](docs/screenshots/home.jpg)
+
+### Create an account
+
+![Create an account form](docs/screenshots/register.jpg)
+
+### Log in
+
+![Log in form](docs/screenshots/login.jpg)
+
+## Features
+
+- Browse published stories on the home page.
+- Create an account, log in, and write a story.
+- Server-side authentication and validation with Spring Security.
+- In-memory H2 database for a zero-setup local run.
+- Responsive layout with larger, high-contrast form labels and readable body text.
+
 ## Requirements
 
 - Java 17 or newer
