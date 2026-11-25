@@ -15,9 +15,20 @@ From the project directory, run:
 mvn spring-boot:run
 ```
 
-Open [http://localhost:8081](http://localhost:8081), register an account, and sign in. The default H2 database is in memory, so accounts and posts are cleared when the app stops. The H2 console is available at [http://localhost:8081/h2-console](http://localhost:8081/h2-console) while the app is running.
+Wait until Maven prints `Started BloggingApplication`, then open [http://localhost:8081](http://localhost:8081) in your browser. Use this full address; `http://localhost` alone goes to port 80, while this app listens on port 8081 by default. Register an account and sign in to create posts.
 
-To choose another port, set the `PORT` environment variable before starting the app.
+To stop the app, press `Ctrl+C` in the terminal where Maven is running. The default H2 database is in memory, so accounts and posts are cleared when the app stops. The H2 console is available at [http://localhost:8081/h2-console](http://localhost:8081/h2-console) while the app is running.
+
+### If port 8081 is already in use
+
+Stop the other app using port 8081, or choose another port in PowerShell:
+
+```powershell
+$env:PORT = "8082"
+mvn spring-boot:run
+```
+
+Then open [http://localhost:8082](http://localhost:8082). The `PORT` setting is also used when running the packaged JAR or Docker image.
 
 ## Build and run the JAR
 
@@ -29,3 +40,15 @@ java -jar target/blogging-app-1.0.0.jar
 ## Configuration
 
 The default configuration is in `src/main/resources/application.properties`. It uses the embedded H2 database and listens on port `8081` (or the value of `PORT`).
+
+## Docker
+
+Build the JAR first, then build and run the image:
+
+```powershell
+mvn -DskipTests package
+docker build -t fullstack-blogging-app .
+docker run --rm -p 8081:8081 fullstack-blogging-app
+```
+
+Open [http://localhost:8081](http://localhost:8081). To use another host port, map it to the container port, for example `-p 8082:8081`.
