@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Commonplace — notes worth sharing</title><link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar"><a class="brand" th:href="@{/}"><span class="brand-mark">c.</span> commonplace</a>
+    <nav><a href="#stories">Stories</a><a th:href="@{/add}" sec:authorize="isAuthenticated()">Write</a>
+        <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Log in</a>
+        <a class="nav-cta" th:href="@{/register}" sec:authorize="!isAuthenticated()">Join free</a>
+        <form class="inline-form" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()"><button class="nav-link">Log out</button></form>
+    </nav>
+</header>
+<main>
+    <section class="hero"><div class="eyebrow"><span class="dot"></span> A little space to think out loud</div>
+        <h1>Good ideas deserve<br><em>room to grow.</em></h1>
+        <p>Personal essays, small discoveries, and stories from people figuring things out as they go.</p>
+        <a class="button" th:href="@{/add}" sec:authorize="isAuthenticated()">Write your first story <span>↗</span></a>
+        <a class="button" th:href="@{/register}" sec:authorize="!isAuthenticated()">Find your voice <span>↗</span></a>
+        <div class="hero-note">READ SLOWLY&nbsp;&nbsp; · &nbsp;&nbsp;WRITE HONESTLY&nbsp;&nbsp; · &nbsp;&nbsp;STAY CURIOUS</div>
+        <div class="hero-scribble">✳</div>
+    </section>
+    <section id="stories" class="stories">
+        <div class="section-heading"><div><div class="eyebrow">THE COMMUNITY</div><h2>Fresh from the page</h2></div><span class="story-count" th:text="${#lists.size(posts)} + ' STORIES'">0 STORIES</span></div>
+        <div th:if="${#lists.isEmpty(posts)}" class="empty-state"><div class="empty-icon">✎</div><h3>The page is still quiet.</h3><p>Start with a thought you can’t stop thinking about.</p><a th:href="@{/add}" sec:authorize="isAuthenticated()">Write a story →</a><a th:href="@{/register}" sec:authorize="!isAuthenticated()">Create an account →</a></div>
+        <article class="story-card" th:each="post,iter : ${posts}">
+            <div class="story-number" th:text="${#numbers.formatInteger(iter.count, 2)}">01</div>
+            <div class="story-body"><div class="story-meta"><span class="story-tag">FIELD NOTES</span><span th:text="${#temporals.format(post.createdAt, 'MMM d, yyyy')}">TODAY</span></div>
+                <h3 th:text="${post.title}">A story title</h3><p class="story-excerpt" th:text="${#strings.abbreviate(post.content, 180)}">A story preview will appear here.</p>
+                <div class="byline"><span class="avatar" th:text="${#strings.substring(post.user.username,0,1).toUpperCase()}">A</span><span th:text="${post.user.username}">Author</span><span class="read-time">· &nbsp;A NOTE TO KEEP</span></div>
+            </div><div class="story-arrow">↗</div>
+        </article>
+    </section>
+</main>
+<footer><a class="brand" th:href="@{/}"><span class="brand-mark">c.</span> commonplace</a><span>Made for the things you want to remember.</span><span>© 2026</span></footer>
+</body></html>
